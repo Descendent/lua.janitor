@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks":
+	[
+		{
+			"label": "Test",
+			"group":
+			{
+				"kind": "test",
+				"isDefault": true
+			},
+			"type": "process",
+			"command": "lua",
+			"args": ["lua.janitor.test/init.lua"],
+			"options":
+			{
+				"env":
+				{
+					"LUA_PATH": "./lua.janitor/src/?.lua;./lua.janitor.test/src/?.lua;./submodules/luaunit/?.lua;${env:LUA_PATH};"
+				}
+			}
+		}
+	]
+}
