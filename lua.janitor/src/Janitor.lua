@@ -1,3 +1,31 @@
+local function Quote(value)
+	local t = type(value)
+
+	if t == "string" then
+		return string.format("%q", value)
+	end
+
+	if t == "table" then
+		return string.format("[%s]", value)
+	end
+
+	if t == "function" then
+		return string.format("[%s]", value)
+	end
+
+	if t == "thread" then
+		return string.format("[%s]", value)
+	end
+
+	if t == "userdata" then
+		return string.format("[%s]", value)
+	end
+
+	return value
+end
+
+--------------------------------------------------------------------------------
+
 local Janitor = {}
 Janitor.__index = Janitor
 
@@ -20,7 +48,8 @@ function Janitor.New(thunk)
 end
 
 function Janitor:AddValue(value, thunk)
-	assert(self._thunk[value] == nil)
+	assert(self._thunk[value] == nil,
+		string.format("duplicate key: value=%s", Quote(value)))
 
 	if thunk == nil then
 		self._thunk[value] = self._thunkDefault
@@ -32,7 +61,8 @@ function Janitor:AddValue(value, thunk)
 end
 
 function Janitor:Add(key, value, thunk)
-	assert(self._thunk[value] == nil)
+	assert(self._thunk[value] == nil,
+		string.format("duplicate key: value=%s", Quote(value)))
 
 	self:Cleanup(key)
 	self._value[key] = self:AddValue(value, thunk)
